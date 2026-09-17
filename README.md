@@ -46,3 +46,13 @@ static/index.html    # Web 面板（原生 HTML/CSS/JS，无外部依赖）
 - 仅能获取公开的**插座占用/故障状态**，不含他人订单的剩余充电时间（会话级数据，需本人登录 token）。
 - 站点清单为静态维护；新增/迁移站点需手动更新 `stations_yuquan.csv`。
 - `areaId` 参数经实测不影响返回结果，`devaddress` 决定具体设备。
+
+## Vercel 部署
+
+项目已包含 `api/status.py` 和 `vercel.json`，可直接部署为 Vercel Serverless Function：静态面板通过 `/api/status` 实时请求公开设备接口。
+
+```powershell
+vercel --prod
+```
+
+> Vercel Serverless Function 不保持本地轮询进程；每次面板刷新会触发一次数据聚合请求。为减少上游请求，面板默认每 15 秒刷新一次。
