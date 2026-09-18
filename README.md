@@ -80,6 +80,7 @@ static/index.html          # Web 面板（原生 HTML/CSS/JS，无外部依赖�
 api/status.py              # Vercel Serverless 入口
 docs/coordinates.md        # 坐标系结论与位置核对记录
 docs/open-items.md         # 待确认事项（孔位数、校园地图核对）
+docs/status.md             # 项目现状与本阶段小结
 docs/images/               # 面板截图
 docs/reference/            # 校园地图原始文件存档
 ```
@@ -100,5 +101,6 @@ vercel --prod   # 仅在需要手动部署或本地验证时使用
 
 ## 进一步了解
 
+- [项目现状与本阶段小结](./docs/status.md) —— 一页看完现在处于什么状态、还有哪些没决定
 - [坐标与位置核对](./docs/coordinates.md) —— 站点坐标为什么是 BD-09、当初 900 米误差是怎么定位出来的
 - [待确认事项](./docs/open-items.md) —— 孔位数、校园地图核对结论、尚未决定的小问题
