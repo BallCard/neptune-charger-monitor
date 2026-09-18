@@ -4,9 +4,26 @@
 
 浙大玉泉校区尼普顿电动自行车充电桩的实时空位面板：打开网页就知道哪个站点有空位，授权定位后按距离排序，并可一键导航过去。
 
+**在线版**：<https://neptune-charger-monitor.vercel.app>
+
+![站点总览：搜索筛选、按空位排序的站点列表与全校区统计](docs/images/panel-desktop.png)
+
 - 只用 Python 标准库，**无需安装依赖**
 - 调用公开设备接口，**无需登录、无需 token**
-- 数据每 15 秒自动更新，含逐孔状态
+- 数据每 15 秒自动更新，精确到每个插座
+- 桌面与手机都能用；定位只在浏览器里算，默认不上传
+
+## 界面
+
+手机上是单列布局（下图 430 px 宽）：
+
+<img src="docs/images/panel-mobile.png" width="330" alt="手机单列视图：站点卡片与空位统计">
+
+展开任一站点，可以看到每台设备、每个插座的实时状态，以及步行导航入口：
+
+![展开站点：逐孔状态与高德 / 百度导航](docs/images/panel-station.png)
+
+> 截图取自 2026-09-18 的一次完整轮询（14 个站点、35 台设备全部可达，共 420 个孔位）。
 
 ## 快速开始
 
@@ -57,12 +74,14 @@ python monitor.py
 ## 目录结构
 
 ```text
-monitor.py             # 主程序：轮询 + 内置 HTTP 服务（标准库）
-stations_yuquan.csv    # 站点与设备号清单（坐标为 BD-09，含搜索别名）
-static/index.html      # Web 面板（原生 HTML/CSS/JS，无外部依赖）
-api/status.py          # Vercel Serverless 入口
-/docs/coordinates.md   # 坐标系结论与位置核对记录
-/docs/open-items.md    # 待确认事项（孔位数、校园地图核对）
+monitor.py                 # 主程序：轮询 + 内置 HTTP 服务（标准库）
+stations_yuquan.csv        # 站点与设备号清单（坐标为 BD-09，含搜索别名）
+static/index.html          # Web 面板（原生 HTML/CSS/JS，无外部依赖）
+api/status.py              # Vercel Serverless 入口
+docs/coordinates.md        # 坐标系结论与位置核对记录
+docs/open-items.md         # 待确认事项（孔位数、校园地图核对）
+docs/images/               # 面板截图
+docs/reference/            # 校园地图原始文件存档
 ```
 
 ## Vercel 部署
@@ -78,3 +97,8 @@ vercel --prod   # 仅在需要手动部署或本地验证时使用
 ```
 
 > Serverless 不保留本地轮询进程，每次面板刷新会触发一次聚合请求；页面在上次请求完成 15 秒后再刷新，并在后台标签页暂停。
+
+## 进一步了解
+
+- [坐标与位置核对](./docs/coordinates.md) —— 站点坐标为什么是 BD-09、当初 900 米误差是怎么定位出来的
+- [待确认事项](./docs/open-items.md) —— 孔位数、校园地图核对结论、尚未决定的小问题
