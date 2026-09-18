@@ -1,0 +1,376 @@
+{
+  "schema_version": "1.0",
+  "task": "extract_ev_charging_points_from_campus_map",
+  "source": {
+    "title": "玉泉充电桩点位明细",
+    "image_file": "1630d7c2-9243-4978-89e5-fa3b51c4d817.jpg",
+    "campus_address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区",
+    "campus_reference_coordinate": {
+      "lat": 30.263776,
+      "lon": 120.122946,
+      "scope": "campus-level only; not a coordinate for each charging point"
+    }
+  },
+  "summary": {
+    "point_count": 14,
+    "sum_of_map_marked_numbers": 408
+  },
+  "charging_points": [
+    {
+      "id": "CQ001",
+      "name": "建发宿舍",
+      "raw_label": "建发宿舍(16)",
+      "map_marked_number": 16,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，建发宿舍附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 652.5,
+          "y": 96.5
+        },
+        "normalized": {
+          "x": 0.6797,
+          "y": 0.1585
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.9
+    },
+    {
+      "id": "CQ002",
+      "name": "原电工厂",
+      "raw_label": "原电工厂(44)",
+      "map_marked_number": 44,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，原电工厂附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 827.5,
+          "y": 117.5
+        },
+        "normalized": {
+          "x": 0.862,
+          "y": 0.1929
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.88
+    },
+    {
+      "id": "CQ003",
+      "name": "教七",
+      "raw_label": "教七(20)",
+      "map_marked_number": 20,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，教七附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 359.0,
+          "y": 190.0
+        },
+        "normalized": {
+          "x": 0.374,
+          "y": 0.312
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.98
+    },
+    {
+      "id": "CQ004",
+      "name": "智泉大楼",
+      "raw_label": "智泉大楼(30)",
+      "map_marked_number": 30,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，智泉大楼附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 442.0,
+          "y": 217.0
+        },
+        "normalized": {
+          "x": 0.4604,
+          "y": 0.3563
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.99
+    },
+    {
+      "id": "CQ005",
+      "name": "高分子",
+      "raw_label": "高分子(60)",
+      "map_marked_number": 60,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，高分子附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 210.0,
+          "y": 210.0
+        },
+        "normalized": {
+          "x": 0.2188,
+          "y": 0.3448
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.99
+    },
+    {
+      "id": "CQ006",
+      "name": "教三",
+      "raw_label": "教三(10)",
+      "map_marked_number": 10,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，教三附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 398.0,
+          "y": 319.0
+        },
+        "normalized": {
+          "x": 0.4146,
+          "y": 0.5238
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.96
+    },
+    {
+      "id": "CQ007",
+      "name": "教十八",
+      "raw_label": "教十八(17)",
+      "map_marked_number": 17,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，教十八附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 190.0,
+          "y": 346.0
+        },
+        "normalized": {
+          "x": 0.1979,
+          "y": 0.5681
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.98
+    },
+    {
+      "id": "CQ008",
+      "name": "教十",
+      "raw_label": "教十(9)",
+      "map_marked_number": 9,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，教十附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 138.0,
+          "y": 385.0
+        },
+        "normalized": {
+          "x": 0.1437,
+          "y": 0.6322
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.98
+    },
+    {
+      "id": "CQ009",
+      "name": "生仪学院",
+      "raw_label": "生仪学院(60)",
+      "map_marked_number": 60,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，生仪学院附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 232.0,
+          "y": 399.0
+        },
+        "normalized": {
+          "x": 0.2417,
+          "y": 0.6552
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.98
+    },
+    {
+      "id": "CQ010",
+      "name": "内单",
+      "raw_label": "内单(35)",
+      "map_marked_number": 35,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，内单附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 672.0,
+          "y": 401.0
+        },
+        "normalized": {
+          "x": 0.7,
+          "y": 0.6585
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.96
+    },
+    {
+      "id": "CQ011",
+      "name": "微电子学院",
+      "raw_label": "微电子学院(25)",
+      "map_marked_number": 25,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，微电子学院附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 570.0,
+          "y": 422.0
+        },
+        "normalized": {
+          "x": 0.5938,
+          "y": 0.6929
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.82
+    },
+    {
+      "id": "CQ012",
+      "name": "机械工程楼",
+      "raw_label": "机械工程楼(16)",
+      "map_marked_number": 16,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，机械工程楼附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 375.0,
+          "y": 428.0
+        },
+        "normalized": {
+          "x": 0.3906,
+          "y": 0.7028
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.98
+    },
+    {
+      "id": "CQ013",
+      "name": "曹光彪楼",
+      "raw_label": "曹光彪楼(50)",
+      "map_marked_number": 50,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，曹光彪楼附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 128.0,
+          "y": 430.0
+        },
+        "normalized": {
+          "x": 0.1333,
+          "y": 0.7061
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.91
+    },
+    {
+      "id": "CQ014",
+      "name": "原出版社",
+      "raw_label": "原出版社(16)",
+      "map_marked_number": 16,
+      "address": "浙江省杭州市西湖区浙大路38号 浙江大学玉泉校区，原出版社附近",
+      "campus": "浙江大学玉泉校区",
+      "city": "杭州市",
+      "district": "西湖区",
+      "image_anchor": {
+        "pixel": {
+          "x": 323.0,
+          "y": 475.0
+        },
+        "normalized": {
+          "x": 0.3365,
+          "y": 0.78
+        },
+        "source_image_size": {
+          "width": 960,
+          "height": 609
+        }
+      },
+      "text_confidence": 0.95
+    }
+  ],
+  "agent_notes": [
+    "map_marked_number 为原图地点名称后括号中的数字；原图未明确单位，因此不要自动解释为充电桩台数或充电口数。",
+    "address 为“校区街道地址 + 校内地标”的导航文本，并非每个点独立的门牌号。",
+    "image_anchor 可用于后续图像 Agent 在原图中回查点位。",
+    "低清原图存在少量文字识别不确定性，其中“微电子学院”“原电工厂”“曹光彪楼”“建发宿舍”建议在自动入库前人工复核一次。"
+  ]
+}
