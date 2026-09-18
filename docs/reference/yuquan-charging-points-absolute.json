@@ -1,0 +1,324 @@
+{
+  "schema_version": "2.0",
+  "task": "yuquan_ev_charging_points_absolute_coordinates",
+  "coordinate_system_notes": {
+    "wgs84": "适用于GPS、OpenStreetMap、GeoJSON等国际标准坐标。",
+    "gcj02": "适用于高德、腾讯等中国大陆互联网地图。",
+    "important": "原图是校园示意图，不是测绘底图。未能直接匹配公开地图对象的点位使用仿射配准估算，因此不是充电桩单桩级测量坐标。"
+  },
+  "source_map": {
+    "title": "玉泉充电桩点位明细",
+    "campus": "浙江大学玉泉校区",
+    "address": "浙江省杭州市西湖区浙大路38号"
+  },
+  "charging_points": [
+    {
+      "id": "CQ001",
+      "name": "建发宿舍",
+      "map_marked_number": 16,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.270483,
+          "longitude": 120.117012
+        },
+        "gcj02": {
+          "latitude": 30.268205,
+          "longitude": 120.121798
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 652.5,
+        "y": 96.5
+      }
+    },
+    {
+      "id": "CQ002",
+      "name": "原电工厂",
+      "map_marked_number": 44,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.272171,
+          "longitude": 120.119494
+        },
+        "gcj02": {
+          "latitude": 30.269891,
+          "longitude": 120.124276
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 827.5,
+        "y": 117.5
+      }
+    },
+    {
+      "id": "CQ003",
+      "name": "教七",
+      "map_marked_number": 20,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.2664,
+          "longitude": 120.1155
+        },
+        "gcj02": {
+          "latitude": 30.264123,
+          "longitude": 120.120288
+        }
+      },
+      "coordinate_method": "direct_building_centroid",
+      "estimated_horizontal_accuracy_m": 15,
+      "coordinate_source": "OSM/Mapcarta: 第七教学大楼",
+      "image_anchor_pixel": {
+        "x": 359.0,
+        "y": 190.0
+      }
+    },
+    {
+      "id": "CQ004",
+      "name": "智泉大楼",
+      "map_marked_number": 30,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.266907,
+          "longitude": 120.116805
+        },
+        "gcj02": {
+          "latitude": 30.264629,
+          "longitude": 120.121591
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 442.0,
+        "y": 217.0
+      }
+    },
+    {
+      "id": "CQ005",
+      "name": "高分子楼",
+      "map_marked_number": 60,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.26433,
+          "longitude": 120.11371
+        },
+        "gcj02": {
+          "latitude": 30.262054,
+          "longitude": 120.118501
+        }
+      },
+      "coordinate_method": "direct_building_centroid",
+      "estimated_horizontal_accuracy_m": 15,
+      "coordinate_source": "OSM/Mapcarta: 高分子楼",
+      "image_anchor_pixel": {
+        "x": 210.0,
+        "y": 210.0
+      }
+    },
+    {
+      "id": "CQ006",
+      "name": "教三",
+      "map_marked_number": 10,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.26528,
+          "longitude": 120.11811
+        },
+        "gcj02": {
+          "latitude": 30.263001,
+          "longitude": 120.122893
+        }
+      },
+      "coordinate_method": "direct_building_centroid",
+      "estimated_horizontal_accuracy_m": 15,
+      "coordinate_source": "OSM/Mapcarta: 第三教学大楼",
+      "image_anchor_pixel": {
+        "x": 398.0,
+        "y": 319.0
+      }
+    },
+    {
+      "id": "CQ007",
+      "name": "教十八",
+      "map_marked_number": 17,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.262788,
+          "longitude": 120.116266
+        },
+        "gcj02": {
+          "latitude": 30.260511,
+          "longitude": 120.121052
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 190.0,
+        "y": 346.0
+      }
+    },
+    {
+      "id": "CQ008",
+      "name": "教十",
+      "map_marked_number": 9,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.26195,
+          "longitude": 120.11661
+        },
+        "gcj02": {
+          "latitude": 30.259672,
+          "longitude": 120.121396
+        }
+      },
+      "coordinate_method": "direct_building_centroid",
+      "estimated_horizontal_accuracy_m": 15,
+      "coordinate_source": "OSM/Mapcarta: 第十教学大楼",
+      "image_anchor_pixel": {
+        "x": 138.0,
+        "y": 385.0
+      }
+    },
+    {
+      "id": "CQ009",
+      "name": "生仪学院",
+      "map_marked_number": 60,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.262685,
+          "longitude": 120.117776
+        },
+        "gcj02": {
+          "latitude": 30.260406,
+          "longitude": 120.12256
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 232.0,
+        "y": 399.0
+      }
+    },
+    {
+      "id": "CQ010",
+      "name": "内单",
+      "map_marked_number": 35,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.267467,
+          "longitude": 120.123048
+        },
+        "gcj02": {
+          "latitude": 30.265184,
+          "longitude": 120.127822
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 672.0,
+        "y": 401.0
+      }
+    },
+    {
+      "id": "CQ011",
+      "name": "微电子学院",
+      "map_marked_number": 25,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.266131,
+          "longitude": 120.122235
+        },
+        "gcj02": {
+          "latitude": 30.263848,
+          "longitude": 120.127011
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 570.0,
+        "y": 422.0
+      }
+    },
+    {
+      "id": "CQ012",
+      "name": "机电工程楼",
+      "map_marked_number": 16,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.263939,
+          "longitude": 120.12003
+        },
+        "gcj02": {
+          "latitude": 30.261658,
+          "longitude": 120.124809
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 375.0,
+        "y": 428.0
+      }
+    },
+    {
+      "id": "CQ013",
+      "name": "曹光彪楼",
+      "map_marked_number": 50,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.26115,
+          "longitude": 120.11703
+        },
+        "gcj02": {
+          "latitude": 30.258871,
+          "longitude": 120.121815
+        }
+      },
+      "coordinate_method": "direct_building_centroid",
+      "estimated_horizontal_accuracy_m": 15,
+      "coordinate_source": "OSM/Mapcarta: 曹光彪高科技大楼",
+      "image_anchor_pixel": {
+        "x": 128.0,
+        "y": 430.0
+      }
+    },
+    {
+      "id": "CQ014",
+      "name": "原出版社",
+      "map_marked_number": 16,
+      "coordinate": {
+        "wgs84": {
+          "latitude": 30.262872,
+          "longitude": 120.120307
+        },
+        "gcj02": {
+          "latitude": 30.260591,
+          "longitude": 120.125086
+        }
+      },
+      "coordinate_method": "affine_georeferencing",
+      "estimated_horizontal_accuracy_m": 40,
+      "coordinate_source": "georeferenced_from_source_map",
+      "image_anchor_pixel": {
+        "x": 323.0,
+        "y": 475.0
+      }
+    }
+  ]
+}

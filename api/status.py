@@ -18,7 +18,8 @@ STATUS_MAP = {"0": "free", "1": "used", "3": "fault"}
 
 def load_stations():
     with CSV_PATH.open(encoding="utf-8") as file:
-        return [{"name": row["name"], "lon": float(row["lon"]), "lat": float(row["lat"]), "device_ids": json.loads(row["device_ids"])} for row in csv.DictReader(file)]
+        # aliases 用 | 分隔，仅供面板搜索（如「微电子学院」→ 行政楼北侧）
+        return [{"name": row["name"], "lon": float(row["lon"]), "lat": float(row["lat"]), "device_ids": json.loads(row["device_ids"]), "aliases": [a.strip() for a in (row.get("aliases") or "").split("|") if a.strip()]} for row in csv.DictReader(file)]
 
 
 def as_float(value):
@@ -72,7 +73,7 @@ def status_payload():
                 "lon": as_float(obj.get("longitude")), "lat": as_float(obj.get("latitude")),
                 **device_counts, "total": len(ports), "ports": ports,
             })
-        output.append({"name": station["name"], "lon": station["lon"], "lat": station["lat"], **counts, "total": sum(counts.values()), "reachable": any(device["reachable"] for device in devices), "devices": len(devices), "devices_detail": devices})
+        output.append({"name": station["name"], "lon": station["lon"], "lat": station["lat"], "aliases": station["aliases"], **counts, "total": sum(counts.values()), "reachable": any(device["reachable"] for device in devices), "devices": len(devices), "devices_detail": devices})
     return {"stations": output, "updated_at": datetime.now(timezone(timedelta(hours=8))).isoformat(timespec="seconds"), "last_error": "; ".join(errors[:6]) or None, "fetching": False}
 
 

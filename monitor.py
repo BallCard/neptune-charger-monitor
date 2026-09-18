@@ -49,6 +49,8 @@ def load_stations() -> list[dict]:
                 "lon": float(row["lon"]),
                 "lat": float(row["lat"]),
                 "device_ids": json.loads(row["device_ids"]),
+                # aliases 用 | 分隔，仅供面板搜索（如「微电子学院」→ 行政楼北侧）
+                "aliases": [a.strip() for a in (row.get("aliases") or "").split("|") if a.strip()],
             })
     return stations
 
@@ -127,7 +129,7 @@ def poll_once() -> None:
             })
 
         stations_out.append({
-            "name": s["name"], "lon": s["lon"], "lat": s["lat"],
+            "name": s["name"], "lon": s["lon"], "lat": s["lat"], "aliases": s["aliases"],
             "free": free, "used": used, "fault": fault, "other": other,
             "total": total, "reachable": reachable,
             "devices": len(s["device_ids"]), "devices_detail": devices_out,
