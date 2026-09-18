@@ -16,6 +16,7 @@ import csv
 import json
 import threading
 import time
+from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib import parse, request
@@ -57,6 +58,14 @@ STATE = {"stations": [], "updated_at": None, "last_error": None, "fetching": Tru
 LOCK = threading.Lock()
 
 
+def as_float(value):
+    """接口坐标可能缺失或为字符串，统一转成 float 或 None。"""
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def fetch_device(device_id: str) -> dict:
     """请求单个设备状态，返回原始 JSON；失败时返回 {"_error": ...}。"""
     body = parse.urlencode({"areaId": AREA_ID, "devaddress": device_id}).encode("utf-8")
@@ -93,10 +102,11 @@ def poll_once() -> None:
             if "_error" in r or r.get("success") is not True:
                 error = r.get("_error") or r.get("msg") or "请求失败"
                 errors.append(f"{s['name']}#{d}: {error}")
-                devices_out.append({"id": str(d), "reachable": False, "error": error, "free": 0, "used": 0, "fault": 0, "other": 0, "total": 0, "ports": []})
+                devices_out.append({"id": str(d), "reachable": False, "error": error, "lon": None, "lat": None, "free": 0, "used": 0, "fault": 0, "other": 0, "total": 0, "ports": []})
                 continue
             reachable = True
-            ps = str((r.get("obj") or {}).get("portstatur", ""))
+            obj = r.get("obj") or {}
+            ps = str(obj.get("portstatur", ""))
             device_counts = {"free": 0, "used": 0, "fault": 0, "other": 0}
             device_ports = []
             for ch in ps:
@@ -108,7 +118,11 @@ def poll_once() -> None:
             used += device_counts["used"]
             fault += device_counts["fault"]
             other += device_counts["other"]
-            devices_out.append({"id": str(d), "reachable": True, "error": None, **device_counts, "total": len(ps), "ports": device_ports})
+            devices_out.append({
+                "id": str(d), "reachable": True, "error": None,
+                "lon": as_float(obj.get("longitude")), "lat": as_float(obj.get("latitude")),
+                **device_counts, "total": len(ps), "ports": device_ports,
+            })
 
         stations_out.append({
             "name": s["name"], "lon": s["lon"], "lat": s["lat"],
@@ -119,7 +133,7 @@ def poll_once() -> None:
 
     with LOCK:
         STATE["stations"] = stations_out
-        STATE["updated_at"] = time.strftime("%Y-%m-%d %H:%M:%S")
+        STATE["updated_at"] = datetime.now(timezone(timedelta(hours=8))).isoformat(timespec="seconds")
         STATE["last_error"] = "; ".join(errors[:6]) if errors else None
         STATE["fetching"] = False
 

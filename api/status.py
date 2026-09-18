@@ -3,6 +3,7 @@ from __future__ import annotations
 import concurrent.futures
 import csv
 import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib import parse, request
 
@@ -16,6 +17,13 @@ STATUS_MAP = {"0": "free", "1": "used", "3": "fault"}
 def load_stations():
     with CSV_PATH.open(encoding="utf-8") as file:
         return [{"name": row["name"], "lon": float(row["lon"]), "lat": float(row["lat"]), "device_ids": json.loads(row["device_ids"])} for row in csv.DictReader(file)]
+
+
+def as_float(value):
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
 
 
 def fetch_device(device_id):
@@ -47,18 +55,23 @@ def status_payload():
             if "_error" in result or result.get("success") is not True:
                 error = result.get("_error") or result.get("msg") or "请求失败"
                 errors.append(f"{station['name']}#{device_id}: {error}")
-                devices.append({"id": str(device_id), "reachable": False, "error": error, **counts.copy(), "total": 0, "ports": []})
+                devices.append({"id": str(device_id), "reachable": False, "error": error, "lon": None, "lat": None, **counts.copy(), "total": 0, "ports": []})
                 continue
             ports = []
             device_counts = {"free": 0, "used": 0, "fault": 0, "other": 0}
-            for char in str((result.get("obj") or {}).get("portstatur", "")):
+            obj = result.get("obj") or {}
+            for char in str(obj.get("portstatur", "")):
                 status = STATUS_MAP.get(char, "other")
                 ports.append(status)
                 device_counts[status] += 1
                 counts[status] += 1
-            devices.append({"id": str(device_id), "reachable": True, "error": None, **device_counts, "total": len(ports), "ports": ports})
+            devices.append({
+                "id": str(device_id), "reachable": True, "error": None,
+                "lon": as_float(obj.get("longitude")), "lat": as_float(obj.get("latitude")),
+                **device_counts, "total": len(ports), "ports": ports,
+            })
         output.append({"name": station["name"], "lon": station["lon"], "lat": station["lat"], **counts, "total": sum(counts.values()), "reachable": any(device["reachable"] for device in devices), "devices": len(devices), "devices_detail": devices})
-    return {"stations": output, "updated_at": __import__("datetime").datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "last_error": "; ".join(errors[:6]) or None, "fetching": False}
+    return {"stations": output, "updated_at": datetime.now(timezone(timedelta(hours=8))).isoformat(timespec="seconds"), "last_error": "; ".join(errors[:6]) or None, "fetching": False}
 
 
 from http.server import BaseHTTPRequestHandler

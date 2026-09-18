@@ -1,0 +1,11 @@
+.git/
+.vercel/
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+.env*
+AGENTS.md
+README.md
+monitor.py
+start.bat
