@@ -8,6 +8,8 @@ from pathlib import Path
 from urllib import parse, request
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+# CSV 与接口的 lon/lat 均为上游（尼普顿）原生 BD-09（百度坐标系），此处原样传递、不做换算；
+# 换算只发生在展示层，见 static/index.html 与 docs/coordinates.md。
 CSV_PATH = BASE_DIR / "stations_yuquan.csv"
 API_URL = "http://www.szlzxn.cn/wxn/getDeviceInfo"
 AREA_ID = 6

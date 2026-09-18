@@ -36,15 +36,18 @@ python monitor.py
 | 接口 | `POST http://www.szlzxn.cn/wxn/getDeviceInfo`（公开接口，无需登录） |
 | 状态字段 | `obj.portstatur`，每个字符代表一个插座：`0`=空闲、`1`=使用中、`3`=故障 |
 | 更新节奏 | 本地版后台每 20 秒抓取一次；面板每 15 秒拉取一次 |
-| 站点清单 | `stations_yuquan.csv`，来自开源项目 [ZJU-Charger](https://github.com/ZJU-Charger/ZJU-Charger)；坐标为高德坐标系（GCJ-02） |
+| 站点清单 | `stations_yuquan.csv`，站点名与设备号清单来自开源项目 [ZJU-Charger](https://github.com/ZJU-Charger/ZJU-Charger) |
+| 坐标系 | 接口与 CSV 里的 `lon,lat` 都是 **BD-09（百度坐标系）**，不是高德用的 GCJ-02；面板按用途换算，见 [坐标与位置核对](./docs/coordinates.md) |
 
-**实测（2026-09-18）**：玉泉 14 个站点、36 台设备全部返回成功；每台 12 个插座共 432 个孔位，`portSize` 与状态串长度一致；35 秒内有 2 台设备状态发生变化 —— 数据是实时的。
+**实测（2026-09-18）**：玉泉 14 个站点、35 台设备都能返回状态；每台 12 个插座共 420 个孔位，状态串长度与孔位数一致；35 秒内有 2 台设备状态发生变化 —— 数据是实时的。上游偶发单台请求超时（12 次抽查出现 1 次），面板会标注并在下次轮询自动恢复。
+
+**位置已按坐标系核对（2026-09-18）**：以 OpenStreetMap 的 WGS-84 数据作独立参照，取 8 座同名建筑比对，确认站点坐标是 BD-09（平均残差 45 米）。v1.0 曾把 BD-09 当作 GCJ-02 直接传给高德，导航会偏出约 900 米；现已按用途换算，站点坐标本身经逐站核对无需改动。
 
 **已知边界**：
 
 - 只反映「插座空闲 / 使用中 / 故障」，不含他人订单的剩余充电时间（会话级数据，需本人登录才有）。
 - 上游是第三方公开接口，没有可用性承诺，字段或地址可能随时变更。
-- 站点名称、设备归属与坐标由上游登记，个别设备登记位置离本站较远（面板会在该设备下标注），实际空位以现场为准。
+- 站点名称、设备归属与坐标由上游登记。已逐站核对：12 个站点与上游设备坐标偏差在 60 米内；`51059127`、`50559148`、`50559150` 的设备自身登记位置有明显偏差（面板会在该设备下标注），`50559147`、`50559149` 上游没有登记坐标。原挂在玉泉新桥门南侧下的 `60359102` 上游登记为紫金港设备（离站约 5.8 km），已从清单移除。实际空位以现场为准。
 - 站点清单为静态维护，新增或迁移站点需更新 `stations_yuquan.csv`。
 - 距离是直线估算，不代表步行路线长度。
 
@@ -53,17 +56,23 @@ python monitor.py
 ## 目录结构
 
 ```text
-monitor.py           # 主程序：轮询 + 内置 HTTP 服务（标准库）
-stations_yuquan.csv  # 玉泉校区站点与设备号清单
-static/index.html    # Web 面板（原生 HTML/CSS/JS，无外部依赖）
+monitor.py             # 主程序：轮询 + 内置 HTTP 服务（标准库）
+stations_yuquan.csv    # 玉泉校区站点与设备号清单（坐标为 BD-09）
+static/index.html      # Web 面板（原生 HTML/CSS/JS，无外部依赖）
+api/status.py          # Vercel Serverless 入口
+/docs/coordinates.md   # 坐标系结论与位置核对记录
 ```
 
 ## Vercel 部署
 
 项目已包含 `api/status.py` 和 `vercel.json`，可直接部署为 Vercel Serverless Function。
 
+线上地址：<https://neptune-charger-monitor.vercel.app>
+
+推送到 `main` 会自动触发 Vercel 构建并更新线上版本，一般十几秒完成，通常不需要手动部署：
+
 ```powershell
-vercel --prod
+vercel --prod   # 仅在需要手动部署或本地验证时使用
 ```
 
 > Serverless 不保留本地轮询进程，每次面板刷新会触发一次聚合请求；页面在上次请求完成 15 秒后再刷新，并在后台标签页暂停。

@@ -77,17 +77,55 @@ function distanceLabel(distance) {
   if (!Number.isFinite(distance)) return '距离未知';
   return distance < 1000 ? `约 ${Math.max(10, Math.round(distance / 10) * 10)} 米` : `约 ${(distance / 1000).toFixed(1)} 公里`;
 }
-/* 接口坐标与高德一致（GCJ-02）；百度需要再转 BD-09。 */
-function gcjToBd(lon, lat) {
-  const z = Math.sqrt(lon * lon + lat * lat) + 0.00002 * Math.sin(lat * Math.PI * 3000 / 180);
-  const theta = Math.atan2(lat, lon) + 0.000003 * Math.cos(lon * Math.PI * 3000 / 180);
+/* 站点与设备坐标来自尼普顿接口，是 BD-09（百度坐标系），不是 GCJ-02。
+   高德用 GCJ-02，浏览器定位给的是 WGS-84，用之前都必须显式换算，
+   否则会偏出 900 米左右（见 docs/coordinates.md）。 */
+const PI = Math.PI;
+function outOfChina(lon, lat) {
+  return lon < 72.004 || lon > 137.8347 || lat < 0.8293 || lat > 55.8271;
+}
+function wgs84ToGcj02(lon, lat) {
+  if (outOfChina(lon, lat)) return [lon, lat];
+  const x = lon - 105;
+  const y = lat - 35;
+  let deltaLat = -100 + 2 * x + 3 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+  deltaLat += (20 * Math.sin(6 * x * PI) + 20 * Math.sin(2 * x * PI)) * 2 / 3;
+  deltaLat += (20 * Math.sin(y * PI) + 40 * Math.sin(y / 3 * PI)) * 2 / 3;
+  deltaLat += (160 * Math.sin(y / 12 * PI) + 320 * Math.sin(y * PI / 30)) * 2 / 3;
+  let deltaLon = 300 + x + 2 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+  deltaLon += (20 * Math.sin(6 * x * PI) + 20 * Math.sin(2 * x * PI)) * 2 / 3;
+  deltaLon += (20 * Math.sin(x * PI) + 40 * Math.sin(x / 3 * PI)) * 2 / 3;
+  deltaLon += (150 * Math.sin(x / 12 * PI) + 300 * Math.sin(x / 30 * PI)) * 2 / 3;
+  const radLat = lat / 180 * PI;
+  const magic = 1 - 0.00669342162296594323 * Math.sin(radLat) ** 2;
+  const sqrtMagic = Math.sqrt(magic);
+  return [
+    lon + (deltaLon * 180) / (6378245 / sqrtMagic * Math.cos(radLat) * PI),
+    lat + (deltaLat * 180) / (6378245 * (1 - 0.00669342162296594323) / (magic * sqrtMagic) * PI),
+  ];
+}
+function gcj02ToBd09(lon, lat) {
+  const z = Math.sqrt(lon * lon + lat * lat) + 0.00002 * Math.sin(lat * PI * 3000 / 180);
+  const theta = Math.atan2(lat, lon) + 0.000003 * Math.cos(lon * PI * 3000 / 180);
   return [z * Math.cos(theta) + 0.0065, z * Math.sin(theta) + 0.006];
+}
+function bd09ToGcj02(lon, lat) {
+  const x = lon - 0.0065;
+  const y = lat - 0.006;
+  const z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * PI * 3000 / 180);
+  const theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * PI * 3000 / 180);
+  return [z * Math.cos(theta), z * Math.sin(theta)];
+}
+function wgs84ToBd09(lon, lat) {
+  const [gcjLon, gcjLat] = wgs84ToGcj02(lon, lat);
+  return gcj02ToBd09(gcjLon, gcjLat);
 }
 function navLinks(station) {
   const name = station.name;
-  const amap = `https://uri.amap.com/navigation?to=${station.lon},${station.lat},${encodeURIComponent(name)}&mode=walk&coordinate=gaode&callnative=1&src=zju-charger-monitor`;
-  const [bdLon, bdLat] = gcjToBd(station.lon, station.lat);
-  const baidu = `https://api.map.baidu.com/direction?destination=${encodeURIComponent(`latlng:${bdLat.toFixed(6)},${bdLon.toFixed(6)}|name:${name}`)}&mode=walking&output=html&coord_type=bd09ll&src=webapp.zju.charger.monitor`;
+  /* 站点是 BD-09：高德要先转成 GCJ-02，百度直接用。 */
+  const [gcjLon, gcjLat] = bd09ToGcj02(station.lon, station.lat);
+  const amap = `https://uri.amap.com/navigation?to=${gcjLon.toFixed(6)},${gcjLat.toFixed(6)},${encodeURIComponent(name)}&mode=walk&coordinate=gaode&callnative=1&src=zju-charger-monitor`;
+  const baidu = `https://api.map.baidu.com/direction?destination=${encodeURIComponent(`latlng:${station.lat.toFixed(6)},${station.lon.toFixed(6)}|name:${name}`)}&mode=walking&output=html&coord_type=bd09ll&src=webapp.zju.charger.monitor`;
   return `<div class="nav"><a href="${escape(amap)}" target="_blank" rel="noopener" aria-label="用高德地图步行导航到 ${escape(name)}">高德导航</a><a href="${escape(baidu)}" target="_blank" rel="noopener" aria-label="用百度地图步行导航到 ${escape(name)}">百度导航</a></div>`;
 }
 function rankedStations(stations, location) {
@@ -213,7 +251,9 @@ function locate() {
   $('#locate').textContent = '定位中…';
   $('#location-note').textContent = '请在浏览器里允许获取位置。';
   navigator.geolocation.getCurrentPosition(position => {
-    userLocation = {lat:position.coords.latitude, lon:position.coords.longitude};
+    /* 浏览器定位是 WGS-84，站点是 BD-09；换算到同一坐标系再比距离。 */
+    const [bdLon, bdLat] = wgs84ToBd09(position.coords.longitude, position.coords.latitude);
+    userLocation = {lat:bdLat, lon:bdLon};
     $('#location-title').textContent = '按距离排序';
     $('#location-note').textContent = `有空位优先，同类按距离排${position.coords.accuracy > 200 ? '（当前定位较粗略）' : ''}。位置不上传。`;
     $('#locate').disabled = false;
